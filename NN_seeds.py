@@ -30,8 +30,8 @@ def get_data(data_dir):
         class_num = labels.index(label)
         for img in os.listdir(path):
             try:
-                img_arr = cv2.imread(os.path.join(path, img))[...,::-1] #convert BGR to RGB format
-                resized_arr = cv2.resize(img_arr, (img_size, img_size)) # Reshaping images to preferred size
+                img_arr = cv2.imread(os.path.join(path, img))[...,::-1] 
+                resized_arr = cv2.resize(img_arr, (img_size, img_size)) 
                 data.append([resized_arr, class_num])
             except Exception as e:
                 print(e)
@@ -73,7 +73,7 @@ for feature, label in val:
   x_val.append(feature)
   y_val.append(label)
 
-# Normalize the data
+
 x_train = np.array(x_train) / 255
 x_val = np.array(x_val) / 255
 
@@ -84,17 +84,17 @@ x_val.reshape(-1, img_size, img_size, 1)
 y_val = np.array(y_val)
 
 datagen = ImageDataGenerator( # test
-        featurewise_center=False,  # set input mean to 0 over the dataset
-        samplewise_center=False,  # set each sample mean to 0
-        featurewise_std_normalization=False,  # divide inputs by std of the dataset
-        samplewise_std_normalization=False,  # divide each input by its std
-        zca_whitening=False,  # apply ZCA whitening
-        rotation_range = 30,  # randomly rotate images in the range (degrees, 0 to 180)
-        zoom_range = 0.2, # Randomly zoom image
-        width_shift_range=0.1,  # randomly shift images horizontally (fraction of total width)
-        height_shift_range=0.1,  # randomly shift images vertically (fraction of total height)
-        horizontal_flip = True,  # randomly flip images
-        vertical_flip=False)  # randomly flip images
+        featurewise_center=False,  
+        samplewise_center=False, 
+        featurewise_std_normalization=False, 
+        samplewise_std_normalization=False,  
+        zca_whitening=False, 
+        rotation_range = 30, 
+        zoom_range = 0.2,
+        width_shift_range=0.1, 
+        height_shift_range=0.1, 
+        horizontal_flip = True, 
+        vertical_flip=False) 
 
 
 datagen.fit(x_train)
@@ -144,8 +144,4 @@ plt.title('Training and Validation Loss')
 plt.show()
 #
 predictions = (model.predict(x_val) > 0.5).astype("int32")
-#predictions = predictions.reshape(1,-1)[0]
-#print(classification_report(y_val, predictions, target_names = ['Rugby (Class 0)','Soccer (Class 1)']))
 
-#tf2onnx.convert.from_keras(model, output_path=r"C:\Users\klimesp\Dropbox\Programovani\Python\Genebanks\modelBlack256_231026.onnx")
-#pickle.dump(model,open(r"C:\Users\klimesp\Dropbox\Programovani\Python\Genebanks\modelBlack259","wb"))
